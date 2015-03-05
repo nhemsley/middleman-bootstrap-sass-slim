@@ -16,8 +16,8 @@ gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
 gem 'tzinfo-data', platforms: [:mswin, :mingw]
 
 # Slim template engine
-gem 'slim', '~> 2.1.0'
+gem 'slim', '~> 3.0.0'
 
 # Assets
-gem 'bootstrap-sass', '~> 3.2.0', require: false
+gem 'bootstrap-sass', '~> 3.3.0', require: false
 gem 'rails-assets-jquery', require: false
