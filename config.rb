@@ -35,9 +35,12 @@ helpers do
 
     container = template_doc.xpath("//*[@id='doc']").first
 
-    container.set_attribute('width', width) if width
-    container.set_attribute('height', height) if height
+    # container.set_attribute('width', width) if width
+    # container.set_attribute('height', height) if height
 
+    # if width && height
+      container.set_attribute('viewBox', "0 0 #{width} #{height}")
+    # end
     # binding.pry
     container.add_child node
     container.to_xml.sub('<default:g', '<g')
