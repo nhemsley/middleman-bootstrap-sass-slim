@@ -1,32 +1,6 @@
-###
-# Compass
-###
+require 'pathname'
+require 'nokogiri'
 
-# Change Compass configuration
-# compass_config do |config|
-#   config.output_style = :compact
-# end
-
-###
-# Page options, layouts, aliases and proxies
-###
-
-# Per-page layout changes:
-#
-# With no layout
-# page "/path/to/file.html", :layout => false
-#
-# With alternative layout
-# page "/path/to/file.html", :layout => :otherlayout
-#
-# A path which all have the same layout
-# with_layout :admin do
-#   page "/admin/*"
-# end
-
-# Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
-# proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
-#  :which_fake_page => "Rendering a fake page with a local variable" }
 
 ###
 # Helpers
@@ -35,23 +9,43 @@
 # Automatic image dimensions on image_tag helper
 # activate :automatic_image_sizes
 
-# Reload the browser automatically whenever files change
-# configure :development do
-#   activate :livereload
-# end
-
-# Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
-
 set :css_dir, 'css'
 
 set :js_dir, 'js'
 
 set :images_dir, 'img'
+
+# Reload the browser automatically whenever files change
+configure :development do
+  activate :livereload
+end
+
+# Methods defined in the helpers block are available in templates
+helpers do
+  def embed_svg(file, id = false, width = false, height = false)
+    svg_file = Pathname.new(source_dir).join(config.images_dir, file)
+    svg_data = IO.read(svg_file.to_s)
+    return svg_data unless id
+
+    doc = Nokogiri::XML(svg_data)
+    node = doc.xpath("//*[@id='title']").first
+    template_file = Pathname.new(source_dir).join(config.images_dir, 'template.svg')
+    template_data = IO.read(template_file)
+    template_doc = Nokogiri::XML(template_data)
+
+    container = template_doc.xpath("//*[@id='doc']").first
+
+    container.set_attribute('width', width) if width
+    container.set_attribute('height', height) if height
+
+    # binding.pry
+    container.add_child node
+    container.to_xml.sub('<default:g', '<g')
+
+  end
+end
+
+# embed_svg('assets.svg') #, 'title')
 
 # Slim configuration
 Slim::Engine.set_default_options pretty: true, sort_attrs: false
@@ -106,3 +100,34 @@ activate :deploy do |deploy|
   # commit strategy: can be :force_push or :submodule, default: :force_push
   # deploy.strategy = :submodule
 end
+
+
+###
+# Compass
+###
+
+# Change Compass configuration
+# compass_config do |config|
+#   config.output_style = :compact
+# end
+
+###
+# Page options, layouts, aliases and proxies
+###
+
+# Per-page layout changes:
+#
+# With no layout
+# page "/path/to/file.html", :layout => false
+#
+# With alternative layout
+# page "/path/to/file.html", :layout => :otherlayout
+#
+# A path which all have the same layout
+# with_layout :admin do
+#   page "/admin/*"
+# end
+
+# Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
+# proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
+#  :which_fake_page => "Rendering a fake page with a local variable" }

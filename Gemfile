@@ -21,3 +21,8 @@ gem 'slim', '~> 3.0.0'
 # Assets
 gem 'bootstrap-sass', '~> 3.3.0', require: false
 gem 'rails-assets-jquery', require: false
+
+gem 'nokogiri'
+
+gem 'pry'
+gem 'pry-byebug'
