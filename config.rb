@@ -46,6 +46,15 @@ helpers do
     container.to_xml.sub('<default:g', '<g')
 
   end
+
+  def nav_link(link_text, url, options = {})
+    # binding.pry
+    options[:class] ||= ""
+    # binding.pry
+    active="active" if current_page.url == '/' && url == '/index.html'
+    active="active" if url == current_page.url
+    "<li class='#{active}'>" << link_to(link_text, url, options) << "</li>"
+  end
 end
 
 # embed_svg('assets.svg') #, 'title')
