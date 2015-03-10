@@ -20,6 +20,11 @@ configure :development do
   activate :livereload
 end
 
+# Add bower to sprockets lookup path
+after_configuration do
+  sprockets.append_path File.join "#{root}", "bower_components"
+end
+
 # Methods defined in the helpers block are available in templates
 helpers do
   def embed_svg(file, id = false, width = false, height = false)

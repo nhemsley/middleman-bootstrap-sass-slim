@@ -1,0 +1,12 @@
+{
+  "name": "middleman",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "jquery": "~> 1.10.2",
+    "vivus": "~0.1.2",
+    "snap.svg": "~0.3.0"
+  }
+}
