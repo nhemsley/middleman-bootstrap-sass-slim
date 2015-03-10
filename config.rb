@@ -1,6 +1,6 @@
 require 'pathname'
 require 'nokogiri'
-# require_relative 'extensions/svg_slicer'
+require_relative 'extensions/svg_slicer'
 
 ###
 # Helpers
