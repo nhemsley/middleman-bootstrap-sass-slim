@@ -1,6 +1,6 @@
 require 'pathname'
 require 'nokogiri'
-
+# require_relative 'extensions/svg_slicer'
 
 ###
 # Helpers
@@ -25,31 +25,15 @@ after_configuration do
   sprockets.append_path File.join "#{root}", "bower_components"
 end
 
+template_file = Pathname.new(source_dir).join(config.images_dir, 'template.svg')
+
+set :svg_slicer, SvgSlicer.new(IO.read(template_file))
+
 # Methods defined in the helpers block are available in templates
 helpers do
-  def embed_svg(file, id = false, width = false, height = false)
+  def embed_svg (file, id = false, width = false, height = false)
     svg_file = Pathname.new(source_dir).join(config.images_dir, file)
-    svg_data = IO.read(svg_file.to_s)
-    return svg_data unless id
-
-    doc = Nokogiri::XML(svg_data)
-    node = doc.xpath("//*[@id='title']").first
-    template_file = Pathname.new(source_dir).join(config.images_dir, 'template.svg')
-    template_data = IO.read(template_file)
-    template_doc = Nokogiri::XML(template_data)
-
-    container = template_doc.xpath("//*[@id='doc']").first
-
-    # container.set_attribute('width', width) if width
-    # container.set_attribute('height', height) if height
-
-    # if width && height
-      container.set_attribute('viewBox', "0 0 #{width} #{height}")
-    # end
-    # binding.pry
-    container.add_child node
-    container.to_xml.sub('<default:g', '<g')
-
+    config[:svg_slicer].slice(svg_file, id, width, height)
   end
 
   def nav_link(link_text, url, options = {})
@@ -61,6 +45,8 @@ helpers do
     "<li class='#{active}'>" << link_to(link_text, url, options) << "</li>"
   end
 end
+
+# use ::Rack::SvgServer
 
 # embed_svg('assets.svg') #, 'title')
 
