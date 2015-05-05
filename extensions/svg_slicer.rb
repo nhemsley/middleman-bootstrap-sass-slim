@@ -16,10 +16,14 @@ class SvgSlicer
 
     node = doc.css("\##{id}").first
 
+    #remove any transforms on the group
+    
+    node.remove_attribute 'transform'
+    
     template_doc = Nokogiri::XML(@template)
 
     container = template_doc.css("svg").first
-
+    
     # if width && height
       container.set_attribute('viewBox', "0 0 #{width} #{height}")
     # end
