@@ -51,7 +51,7 @@ helpers do
   end
 end
 
-use ::Rack::SvgServer
+# use ::Rack::SvgServer
 
 # embed_svg('assets.svg') #, 'title')
 
