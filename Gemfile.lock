@@ -8,12 +8,14 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    ansi (1.5.0)
     autoprefixer-rails (5.1.7)
       execjs
       json
     bootstrap-sass (3.3.3)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
+    builder (3.2.2)
     byebug (3.5.1)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
@@ -45,9 +47,28 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.0.7)
+    excon (0.44.4)
     execjs (2.3.0)
     exifr (1.1.3)
     ffi (1.9.6)
+    fog-aws (0.1.1)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.29.0)
+      builder
+      excon (~> 0.38)
+      formatador (~> 0.2)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+    fog-json (1.0.0)
+      multi_json (~> 1.0)
+    fog-xml (0.1.1)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
+    formatador (0.2.5)
     fspath (2.0.6)
     haml (4.0.6)
       tilt
@@ -65,12 +86,14 @@ GEM
       progress (~> 3.0.0)
     image_size (1.1.5)
     in_threads (1.2.2)
+    ipaddress (0.8.0)
     json (1.8.2)
     kramdown (1.6.0)
     listen (2.8.5)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    map (6.5.5)
     method_source (0.8.2)
     middleman (3.3.10)
       coffee-script (~> 2.2)
@@ -106,14 +129,25 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (~> 3.2)
       rack-livereload (~> 0.3.15)
+    middleman-s3_sync (3.0.43)
+      ansi (~> 1.5.0)
+      fog-aws (>= 0.1.1)
+      map
+      middleman-core (>= 3.0.0)
+      pmap
+      ruby-progressbar
+      unf
     middleman-sprockets (3.4.2)
       middleman-core (>= 3.3)
       sprockets (~> 2.12.1)
       sprockets-helpers (~> 1.1.0)
       sprockets-sass (~> 1.3.0)
+    mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.5.1)
     multi_json (1.11.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -125,6 +159,7 @@ GEM
       tilt (~> 1.4.1)
     padrino-support (0.12.5)
       activesupport (>= 3.1)
+    pmap (1.0.2)
     progress (3.0.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -143,6 +178,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    ruby-progressbar (1.7.4)
     sass (3.4.13)
     slim (3.0.2)
       temple (~> 0.7.3)
@@ -170,6 +206,9 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.6)
 
 PLATFORMS
   ruby
@@ -180,10 +219,9 @@ DEPENDENCIES
   middleman-deploy (~> 0.3.0)
   middleman-imageoptim (~> 0.1.4)
   middleman-livereload (~> 3.3.4)
+  middleman-s3_sync
   nokogiri
   pry
   pry-byebug
   rails-assets-jquery
   slim (~> 3.0.0)
-  tzinfo-data
-  wdm (~> 0.1.0)

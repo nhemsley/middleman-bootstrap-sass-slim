@@ -31,6 +31,11 @@ set :svg_slicer, SvgSlicer.new(IO.read(template_file))
 
 # Methods defined in the helpers block are available in templates
 helpers do
+  
+  def images_dir
+    Pathname.new(source_dir).join(config.images_dir)
+  end
+  
   def embed_svg (file, id = false, width = false, height = false)
     svg_file = Pathname.new(source_dir).join(config.images_dir, file)
     config[:svg_slicer].slice(svg_file, id, width, height)
@@ -86,51 +91,10 @@ configure :build do
   # set :http_prefix, "/Content/images/"
 end
 
-# middleman-deploy configuration
-activate :deploy do |deploy|
-  # Automatically run `middleman build` during `middleman deploy`
-  # deploy.build_before = true
-
-  # rsync, ftp, sftp, or git
-  deploy.method = :git
-
-  # remote name or git url, default: origin
-  # deploy.remote   = 'custom-remote'
-
-  # default: gh-pages
-  # deploy.branch   = 'master'
-
-  # commit strategy: can be :force_push or :submodule, default: :force_push
-  # deploy.strategy = :submodule
+activate :s3_sync do |s3_sync|
+  s3_sync.bucket                     = '' # The name of the S3 bucket you are targetting. This is globally unique.
+  s3_sync.region                     = 'ap-southeast-2'     # The AWS region for your bucket.
+  s3_sync.aws_access_key_id          = ''
+  s3_sync.aws_secret_access_key      = ''
+  # s3_sync.reduced_redundancy_storage = true
 end
-
-
-###
-# Compass
-###
-
-# Change Compass configuration
-# compass_config do |config|
-#   config.output_style = :compact
-# end
-
-###
-# Page options, layouts, aliases and proxies
-###
-
-# Per-page layout changes:
-#
-# With no layout
-# page "/path/to/file.html", :layout => false
-#
-# With alternative layout
-# page "/path/to/file.html", :layout => :otherlayout
-#
-# A path which all have the same layout
-# with_layout :admin do
-#   page "/admin/*"
-# end
-
-# Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
-# proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
-#  :which_fake_page => "Rendering a fake page with a local variable" }

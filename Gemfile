@@ -10,10 +10,7 @@ gem 'middleman-deploy', '~> 0.3.0'
 # Images compress plugin
 gem 'middleman-imageoptim', '~> 0.1.4'
 
-# For faster file watcher updates on Windows:
-gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
-# Windows does not come with time zone data
-gem 'tzinfo-data', platforms: [:mswin, :mingw]
+gem 'middleman-s3_sync'
 
 # Slim template engine
 gem 'slim', '~> 3.0.0'
@@ -23,6 +20,7 @@ gem 'bootstrap-sass', '~> 3.3.0', require: false
 gem 'rails-assets-jquery', require: false
 
 gem 'nokogiri'
+
 
 gem 'pry'
 gem 'pry-byebug'
